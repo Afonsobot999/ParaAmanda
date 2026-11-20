@@ -1,0 +1,485 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Ei Amandita 💛</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@600;700&family=Quicksand:wght@500;600&display=swap" rel="stylesheet">
+<style>
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  :root {
+    --rosa-forte: #c2185b;
+    --rosa-medio: #ec407a;
+    --vinho: #ad1457;
+    --suave: cubic-bezier(0.22, 1, 0.36, 1);
+  }
+
+  html, body { height: 100%; }
+
+  body {
+    min-height: 100vh;
+    min-height: 100dvh;
+    overflow: hidden;
+    font-family: 'Quicksand', 'Segoe UI', Arial, sans-serif;
+    background: linear-gradient(135deg, #5c0f2e, #a3214f, #e0607f, #f7a8bf, #a3214f);
+    background-size: 400% 400%;
+    animation: fundo 20s ease-in-out infinite;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    -webkit-font-smoothing: antialiased;
+  }
+
+  /* Brilho suave por cima do fundo */
+  body::before {
+    content: '';
+    position: fixed;
+    inset: 0;
+    background:
+      radial-gradient(circle at 20% 25%, rgba(255, 255, 255, 0.16), transparent 45%),
+      radial-gradient(circle at 80% 75%, rgba(255, 200, 220, 0.2), transparent 50%);
+    pointer-events: none;
+  }
+
+  @keyframes fundo {
+    0%, 100% { background-position: 0% 50%; }
+    50% { background-position: 100% 50%; }
+  }
+
+  /* Corações subindo */
+  .coracao {
+    position: fixed;
+    bottom: -60px;
+    pointer-events: none;
+    z-index: 0;
+    opacity: 0;
+    animation: subir linear forwards;
+    filter: drop-shadow(0 0 6px rgba(255, 180, 210, 0.7));
+    will-change: transform, opacity;
+  }
+
+  @keyframes subir {
+    0%   { transform: translate(0, 0) rotate(0deg); opacity: 0; }
+    12%  { opacity: 0.85; }
+    50%  { transform: translate(18px, -55vh) rotate(12deg); }
+    85%  { opacity: 0.6; }
+    100% { transform: translate(-14px, -115vh) rotate(-12deg); opacity: 0; }
+  }
+
+  /* Cartão */
+  .card {
+    position: relative;
+    z-index: 1;
+    background: rgba(255, 242, 246, 0.85);
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+    padding: 40px 30px 36px;
+    border-radius: 32px;
+    border: 1.5px solid rgba(255, 255, 255, 0.75);
+    box-shadow:
+      0 18px 50px rgba(110, 10, 45, 0.4),
+      0 0 60px rgba(255, 150, 190, 0.35);
+    text-align: center;
+    width: 420px;
+    max-width: 90%;
+    min-height: 330px;
+    animation: entrar 1s var(--suave) both;
+  }
+
+  @keyframes entrar {
+    from { opacity: 0; transform: translateY(24px) scale(0.96); }
+    to   { opacity: 1; transform: translateY(0) scale(1); }
+  }
+
+  /* Coraçõezinhos nos cantos do cartão */
+  .card::before, .card::after {
+    content: '💕';
+    position: absolute;
+    font-size: 1.6rem;
+    animation: flutuar 4s ease-in-out infinite;
+  }
+  .card::before { top: -14px; left: -10px; --r: -20deg; }
+  .card::after  { bottom: -14px; right: -10px; --r: 20deg; animation-delay: -2s; }
+
+  @keyframes flutuar {
+    0%, 100% { transform: rotate(var(--r)) translateY(0); }
+    50%      { transform: rotate(var(--r)) translateY(-5px); }
+  }
+
+  .enfeite {
+    color: var(--rosa-forte);
+    font-size: 0.85rem;
+    letter-spacing: 8px;
+    opacity: 0.7;
+    margin-bottom: 6px;
+  }
+
+  /* Telas (início / resposta) com transição suave */
+  .tela {
+    transition: opacity 0.5s var(--suave), transform 0.5s var(--suave);
+  }
+  .tela.escondida {
+    display: none;
+  }
+  .tela.saindo {
+    opacity: 0;
+    transform: scale(0.96);
+  }
+
+  /* Lugar reservado da mão: o cartão não "pula" quando ela sai */
+  #lugar-mao {
+    height: 110px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  /* A mão */
+  #mao {
+    font-size: 5.5rem;
+    line-height: 1;
+    background: none;
+    border: none;
+    cursor: pointer;
+    -webkit-tap-highlight-color: transparent;
+    touch-action: manipulation;
+    user-select: none;
+    -webkit-user-select: none;
+    filter: drop-shadow(0 6px 12px rgba(150, 15, 65, 0.35));
+  }
+
+  #mao .balanco {
+    display: inline-block;
+    animation: pulsar 1.6s ease-in-out infinite;
+  }
+
+  @keyframes pulsar {
+    0%, 100% { transform: scale(1) rotate(-8deg); }
+    50%      { transform: scale(1.1) rotate(8deg); }
+  }
+
+  /* Quando foge: fica por cima de TUDO, inclusive das letras do cartão */
+  #mao.fugindo {
+    position: fixed;
+    z-index: 1000;
+    transition:
+      left 0.55s var(--suave),
+      top 0.55s var(--suave);
+  }
+
+  /* Títulos */
+  h1, h2 {
+    font-family: 'Dancing Script', cursive;
+    font-weight: 700;
+    text-shadow: 0 2px 10px rgba(255, 120, 170, 0.3);
+  }
+
+  #titulo {
+    color: var(--rosa-forte);
+    font-size: 2.5rem;
+    line-height: 1.15;
+    margin: 12px 0 10px;
+    min-height: 2.9em;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: opacity 0.25s ease, transform 0.25s ease;
+  }
+  #titulo.trocando {
+    opacity: 0;
+    transform: translateY(6px);
+  }
+
+  #dica {
+    color: var(--vinho);
+    font-weight: 600;
+    font-size: 1.05rem;
+    opacity: 0;
+    transform: translateY(6px);
+    transition: opacity 0.5s var(--suave), transform 0.5s var(--suave);
+  }
+  #dica.visivel {
+    opacity: 1;
+    transform: translateY(0);
+    animation: respirar-texto 2.2s ease-in-out 0.5s infinite;
+  }
+
+  @keyframes respirar-texto {
+    0%, 100% { opacity: 1; }
+    50%      { opacity: 0.55; }
+  }
+
+  /* Resposta final */
+  #resposta h2 {
+    color: var(--vinho);
+    font-size: 2.4rem;
+    line-height: 1.2;
+    margin: 6px 0 12px;
+  }
+
+  #resposta .emoji {
+    font-size: 5.5rem;
+    display: inline-block;
+  }
+  #resposta .emoji.tremendo {
+    animation: tremer 0.45s ease-in-out 3;
+  }
+
+  @keyframes tremer {
+    0%, 100% { transform: translateX(0) rotate(0); }
+    25% { transform: translateX(-10px) rotate(-7deg); }
+    75% { transform: translateX(10px) rotate(7deg); }
+  }
+
+  #denovo {
+    margin-top: 22px;
+    padding: 12px 30px;
+    font-family: 'Quicksand', sans-serif;
+    font-weight: 600;
+    font-size: 1rem;
+    border: none;
+    border-radius: 50px;
+    background: linear-gradient(135deg, var(--rosa-medio), var(--rosa-forte));
+    color: white;
+    cursor: pointer;
+    box-shadow: 0 6px 18px rgba(194, 24, 91, 0.4);
+    transition: transform 0.3s var(--suave), box-shadow 0.3s var(--suave);
+    -webkit-tap-highlight-color: transparent;
+  }
+  #denovo:hover {
+    transform: translateY(-2px) scale(1.04);
+    box-shadow: 0 10px 24px rgba(194, 24, 91, 0.5);
+  }
+  #denovo:active {
+    transform: scale(0.97);
+  }
+
+  /* Assinatura */
+  .assinatura {
+    position: fixed;
+    bottom: 14px;
+    left: 0;
+    right: 0;
+    text-align: center;
+    font-family: 'Dancing Script', cursive;
+    font-size: 1.25rem;
+    color: rgba(255, 240, 245, 0.92);
+    text-shadow: 0 2px 8px rgba(90, 10, 40, 0.55);
+    z-index: 2;
+    pointer-events: none;
+    animation: entrar 1.4s var(--suave) 0.4s both;
+  }
+
+  /* Quem prefere menos movimento */
+  @media (prefers-reduced-motion: reduce) {
+    *, *::before, *::after {
+      animation-duration: 0.01ms !important;
+      animation-iteration-count: 1 !important;
+    }
+  }
+</style>
+</head>
+<body>
+
+  <div class="card">
+    <div class="enfeite">♥ ♥ ♥</div>
+
+    <div id="inicio" class="tela">
+      <div id="lugar-mao">
+        <button id="mao" aria-label="Toca aqui"><span class="balanco">✋</span></button>
+      </div>
+      <h1 id="titulo">Ei Amandita, toca aqui! 💛</h1>
+      <p id="dica">Tenta tocar novamente! 👆</p>
+    </div>
+
+    <div id="resposta" class="tela escondida">
+      <h2 id="frase-final"></h2>
+      <span class="emoji">🖕</span>
+      <br>
+      <button id="denovo">Tentar de novo 😏</button>
+    </div>
+  </div>
+
+  <div class="assinatura">Site criado com muito carinho pelo Antônio 💖</div>
+
+<script>
+  // ---------- Corações subindo ----------
+  const emojis = ['💖', '💕', '💗', '💓', '❤️', '💘', '🌹', '✨'];
+
+  function criarCoracao() {
+    const c = document.createElement('div');
+    c.className = 'coracao';
+    c.textContent = emojis[Math.floor(Math.random() * emojis.length)];
+    c.style.left = Math.random() * 100 + 'vw';
+    c.style.fontSize = (Math.random() * 22 + 14) + 'px';
+    const duracao = Math.random() * 5 + 7;
+    c.style.animationDuration = duracao + 's';
+    document.body.appendChild(c);
+    setTimeout(() => c.remove(), duracao * 1000);
+  }
+  setInterval(criarCoracao, 380);
+
+  // ---------- Elementos ----------
+  const mao = document.getElementById('mao');
+  const lugarMao = document.getElementById('lugar-mao');
+  const titulo = document.getElementById('titulo');
+  const dica = document.getElementById('dica');
+  const inicio = document.getElementById('inicio');
+  const resposta = document.getElementById('resposta');
+  const fraseFinal = document.getElementById('frase-final');
+  const emojiFinal = resposta.querySelector('.emoji');
+
+  const TITULO_INICIAL = 'Ei Amandita, toca aqui! 💛';
+  const MAX_FUGAS = 5;
+  let fugas = 0;
+  let ocupado = false; // evita fugas em sequência enquanto ela ainda está deslizando
+
+  const provocacoes = [
+    'Ops, quase! 😅',
+    'Muito lenta, Amandita! 🐢',
+    'Tenta de novo, vai! 😜',
+    'Aqui ó! Não, aqui! 👀',
+    'Tá bom, tá bom... agora vai 🙄'
+  ];
+
+  // Frases que aparecem depois que ela consegue tocar (uma aleatória por vez)
+  const frasesFinais = [
+    'Sai fora, menina estranha!',
+    'Achou mesmo que eu ia deixar?',
+    'Parabéns, você ganhou... nada!',
+    'Vai trabalhar, preguiçosa!',
+    'Aqui pra você, ó...'
+  ];
+  let ultimaFrase = -1;
+
+  function sortearFrase() {
+    let i;
+    do {
+      i = Math.floor(Math.random() * frasesFinais.length);
+    } while (i === ultimaFrase && frasesFinais.length > 1);
+    ultimaFrase = i;
+    return frasesFinais[i];
+  }
+
+  // Troca o texto do título com um fade suave
+  function trocarTitulo(texto) {
+    titulo.classList.add('trocando');
+    setTimeout(() => {
+      titulo.textContent = texto;
+      titulo.classList.remove('trocando');
+    }, 220);
+  }
+
+  // Troca de tela com fade
+  function mostrarTela(sai, entra) {
+    sai.classList.add('saindo');
+    setTimeout(() => {
+      sai.classList.add('escondida');
+      sai.classList.remove('saindo');
+      entra.classList.add('saindo');
+      entra.classList.remove('escondida');
+      void entra.offsetWidth; // força o navegador a aplicar o estado inicial
+      entra.classList.remove('saindo');
+    }, 350);
+  }
+
+  // ---------- A mão foge ----------
+  function fugir() {
+    if (ocupado) return;
+    ocupado = true;
+
+    // Na primeira fuga: tira a mão do cartão SEM teletransporte,
+    // fixando ela exatamente onde estava antes de começar a deslizar
+    if (!mao.classList.contains('fugindo')) {
+      const r = mao.getBoundingClientRect();
+      document.body.appendChild(mao);
+      mao.style.left = r.left + 'px';
+      mao.style.top = r.top + 'px';
+      mao.classList.add('fugindo');
+      void mao.offsetWidth;
+    }
+
+    const margem = 24;
+    const largura = mao.offsetWidth;
+    const altura = mao.offsetHeight;
+    const atualX = parseFloat(mao.style.left) || 0;
+    const atualY = parseFloat(mao.style.top) || 0;
+
+    // Sorteia um destino que fique longe o bastante da posição atual,
+    // para ela atravessar a tela (e passar por cima das letras)
+    let x, y, tentativas = 0;
+    do {
+      x = margem + Math.random() * Math.max(0, window.innerWidth - largura - margem * 2);
+      y = margem + Math.random() * Math.max(0, window.innerHeight - altura - margem * 2);
+      tentativas++;
+    } while (Math.hypot(x - atualX, y - atualY) < Math.min(window.innerWidth, window.innerHeight) * 0.35 && tentativas < 20);
+
+    mao.style.left = x + 'px';
+    mao.style.top = y + 'px';
+
+    trocarTitulo(provocacoes[fugas]);
+    dica.classList.add('visivel');
+    fugas++;
+
+    setTimeout(() => { ocupado = false; }, 300);
+  }
+
+  // Computador: foge quando o mouse chega perto
+  mao.addEventListener('mouseenter', () => {
+    if (fugas < MAX_FUGAS) fugir();
+  });
+
+  // Celular: foge quando o dedo encosta
+  mao.addEventListener('touchstart', (e) => {
+    if (fugas < MAX_FUGAS) {
+      e.preventDefault();
+      fugir();
+    }
+  }, { passive: false });
+
+  // ---------- Clique final ----------
+  mao.addEventListener('click', () => {
+    if (fugas < MAX_FUGAS) {
+      fugir();
+      return;
+    }
+
+    fraseFinal.textContent = sortearFrase();
+
+    // A mão some suavemente
+    mao.style.transition = 'opacity 0.35s ease, transform 0.35s ease';
+    mao.style.opacity = '0';
+    mao.style.transform = 'scale(0.6)';
+    setTimeout(() => { mao.style.display = 'none'; }, 350);
+
+    mostrarTela(inicio, resposta);
+
+    // Tremidinha do emoji (reinicia toda vez)
+    emojiFinal.classList.remove('tremendo');
+    setTimeout(() => {
+      void emojiFinal.offsetWidth;
+      emojiFinal.classList.add('tremendo');
+    }, 500);
+  });
+
+  // ---------- Recomeçar ----------
+  document.getElementById('denovo').addEventListener('click', () => {
+    fugas = 0;
+    ocupado = false;
+
+    // Devolve a mão para o lugar dela no cartão
+    mao.classList.remove('fugindo');
+    mao.removeAttribute('style');
+    lugarMao.appendChild(mao);
+
+    titulo.textContent = TITULO_INICIAL;
+    dica.classList.remove('visivel');
+
+    mostrarTela(resposta, inicio);
+  });
+</script>
+</body>
+</html>
