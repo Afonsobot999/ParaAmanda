@@ -347,21 +347,29 @@
 
   // Frases que aparecem depois que ela consegue tocar (uma aleatória por vez)
   const frasesFinais = [
+    'Pega aqui, esquisita!',
     'Sai fora, menina estranha!',
-    'Achou mesmo que eu ia deixar?',
-    'Parabéns, você ganhou... nada!',
-    'Vai trabalhar, preguiçosa!',
     'Aqui pra você, ó...'
   ];
-  let ultimaFrase = -1;
+  // "Saquinho" de frases: cada uma sai uma vez antes de qualquer uma repetir
+  let saquinho = [];
+  let ultimaFrase = null;
 
   function sortearFrase() {
-    let i;
-    do {
-      i = Math.floor(Math.random() * frasesFinais.length);
-    } while (i === ultimaFrase && frasesFinais.length > 1);
-    ultimaFrase = i;
-    return frasesFinais[i];
+    if (saquinho.length === 0) {
+      saquinho = [...frasesFinais];
+      // Embaralha
+      for (let i = saquinho.length - 1; i > 0; i--) {
+        const j = Math.floor(Math.random() * (i + 1));
+        [saquinho[i], saquinho[j]] = [saquinho[j], saquinho[i]];
+      }
+      // Evita repetir na virada de uma rodada para a outra
+      if (saquinho.length > 1 && saquinho[saquinho.length - 1] === ultimaFrase) {
+        [saquinho[0], saquinho[saquinho.length - 1]] = [saquinho[saquinho.length - 1], saquinho[0]];
+      }
+    }
+    ultimaFrase = saquinho.pop();
+    return ultimaFrase;
   }
 
   // Troca o texto do título com um fade suave
